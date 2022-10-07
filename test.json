@@ -1,0 +1,17 @@
+{
+	"string": "Hello, World!",
+	"array": [
+		"a",
+		{
+			"this": "works"
+		},
+		"b"
+	],
+	"object": {
+		"foo": "bar"
+	},
+	"null": null,
+	"bool": true,
+	"int": 1337,
+	"float": 1.234
+}
