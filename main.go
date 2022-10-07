@@ -81,12 +81,23 @@ func main() {
 		panic(err)
 	}
 
-	node := Object{}
-	if err := json.Unmarshal(contents, &node.json); err != nil {
-		panic(err)
+	var server *fuse.Server
+	object := Object{}
+	array := Array{}
+
+	if err1 := json.Unmarshal(contents, &object.json); err1 != nil {
+		if err2 := json.Unmarshal(contents, &array.json); err2 != nil {
+			fmt.Fprintln(os.Stderr, "Failed to load JSON")
+			fmt.Fprintln(os.Stderr, "Load as object: ", err1)
+			fmt.Fprintln(os.Stderr, "Load as array:  ", err2)
+			os.Exit(1)
+		} else {
+			server, err = fs.Mount(os.Args[2], &array, &fs.Options{})
+		}
+	} else {
+		server, err = fs.Mount(os.Args[2], &object, &fs.Options{})
 	}
 
-	server, err := fs.Mount(os.Args[2], &node, &fs.Options{})
 	if err != nil {
 		panic(err)
 	}
